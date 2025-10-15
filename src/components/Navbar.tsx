@@ -9,6 +9,7 @@ const Navbar = () => {
   // Navigation items
   const navItems = [
     { name: 'Caesar Cipher', path: '/caesar' },
+    { name: 'RSA Encryption', path: '/rsa' },
   ];
 
   // Check if the current path matches the nav item path

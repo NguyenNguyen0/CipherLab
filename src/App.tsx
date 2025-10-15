@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import CaesarCipherPage from "./pages/CaesarCipherPage";
+import RsaPage from "./pages/RsaPage";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/caesar" element={<CaesarCipherPage />} />
+            <Route path="/rsa" element={<RsaPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>

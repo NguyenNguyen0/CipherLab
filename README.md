@@ -1,73 +1,48 @@
-# React + TypeScript + Vite
+# RSA
+1. Select p=11, q=3
+2. n = pxq = 11x3 = 33
+3. φ(n) = (p-1)(q-1) = (11-1)(3-1) = 20
+4. Select e: gcd(φ(n), e) = 1
+   e = 3
+5. Calculate: d = e^-1(mod φ(n))
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+    q=r1//r2;r = r1− q × r2; s = s1−q × s2; t = t1− q × t2
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+    | q   | r1 r2 | r   | t1 t2 | t   |
+    | --- | :---: | --- | :---: | --- |
+    | 6   | 20 3  | 2   |  0 1  | -6  |
+    | 1   |  3 2  | 1   | 1 -6  | 7   |
+    | 2   |  2 1  | 0   | -6 7  | -20 |
+    |     |  1 0  |     | 7 -20 | t   |
 
-## React Compiler
+    - t1 > 0 => d = t1
+    - t1 < 0 => d = n - t1
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+6. Keys:
+   PU = {e, n}
+   PR = {d, n}
+7. Encription
 
-## Expanding the ESLint configuration
+- confidentiality: C = M^e mod n
+- authenticity: C = M^d mod n
+- both: C = (M^d mod n / M)^e mod n
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+8. Decription
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- confidentiality: P = C^e mod n
+- authenticity: P = C^d mod n
+- both: P = (C^d mod n / M)^e mod n
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## fast modular exponentiation
+9^17 mod 77 = ?;
+17(10) = 10001(2)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+| b[i] | p=p^2    | p=p mod 77      | p.z    | p = p mod 77  |
+| ---- | -------- | --------------- | ------ | ------------- |
+| 1    | 1        | 1               | 9      | 9 mod 77 = 9  |
+| 0    | 9^2=81   | 81 mod77=4      | -      | 4             |
+| 0    | 4^2=16   | 16 mod77=16     | -      | 16            |
+| 0    | 16^2=256 | 256 mod 77 = 25 | -      | 25            |
+| 1    | 25^2=625 | 625 mod 77 = 9  | 9x9=81 | 81 mod 77 = 4 |
