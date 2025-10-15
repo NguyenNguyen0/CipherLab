@@ -261,13 +261,19 @@ const RsaPage = () => {
               <InlineMath math="q" />
             </th>
             <th className="px-3 py-2 text-center text-xs font-medium text-gray-500 tracking-wider">
-              <InlineMath math="r_1 \; r_2" />
+              <InlineMath math="r_1" />
+            </th>
+            <th className="px-3 py-2 text-center text-xs font-medium text-gray-500 tracking-wider">
+              <InlineMath math="r_2" />
             </th>
             <th className="px-3 py-2 text-center text-xs font-medium text-gray-500 tracking-wider">
               <InlineMath math="r" />
             </th>
             <th className="px-3 py-2 text-center text-xs font-medium text-gray-500 tracking-wider">
-              <InlineMath math="t_1 \; t_2" />
+              <InlineMath math="t_1" />
+            </th>
+            <th className="px-3 py-2 text-center text-xs font-medium text-gray-500 tracking-wider">
+              <InlineMath math="t_2" />
             </th>
             <th className="px-3 py-2 text-center text-xs font-medium text-gray-500 tracking-wider">
               <InlineMath math="t" />
@@ -281,13 +287,19 @@ const RsaPage = () => {
                 <InlineMath math={`${step.q}`} />
               </td>
               <td className="px-3 py-2 text-center text-sm font-mono">
-                <InlineMath math={`${step.r1} \\; ${step.r2}`} />
+                <InlineMath math={`${step.r1}`} />
+              </td>
+              <td className="px-3 py-2 text-center text-sm font-mono">
+                <InlineMath math={`${step.r2}`} />
               </td>
               <td className="px-3 py-2 text-center text-sm font-mono">
                 <InlineMath math={`${step.r}`} />
               </td>
               <td className="px-3 py-2 text-center text-sm font-mono">
-                <InlineMath math={`${step.t1} \\; ${step.t2}`} />
+                <InlineMath math={`${step.t1}`} />
+              </td>
+              <td className="px-3 py-2 text-center text-sm font-mono">
+                <InlineMath math={`${step.t2}`} />
               </td>
               <td className="px-3 py-2 text-center text-sm font-mono">
                 <InlineMath math={`${step.t}`} />
