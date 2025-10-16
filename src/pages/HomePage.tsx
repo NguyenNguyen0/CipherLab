@@ -16,6 +16,22 @@ const HomePage = () => {
           <h2 className="text-xl font-semibold text-gray-800 mb-2">Caesar Cipher</h2>
           <p className="text-gray-600">A simple substitution cipher that shifts letters by a fixed number.</p>
         </Link>
+        
+        <Link
+          to="/rsa"
+          className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-200 text-center"
+        >
+          <h2 className="text-xl font-semibold text-gray-800 mb-2">RSA Encryption</h2>
+          <p className="text-gray-600">An asymmetric cryptographic algorithm widely used for secure data transmission.</p>
+        </Link>
+        
+        <Link
+          to="/playfair"
+          className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-200 text-center"
+        >
+          <h2 className="text-xl font-semibold text-gray-800 mb-2">Playfair Cipher</h2>
+          <p className="text-gray-600">A digraph substitution cipher that uses a key to create a 5x5 grid for encryption.</p>
+        </Link>
       </div>
     </div>
   );
