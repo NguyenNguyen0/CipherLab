@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage";
 import CaesarCipherPage from "./pages/CaesarCipherPage";
 import RsaPage from "./pages/RsaPage";
 import PlayfairPage from "./pages/PlayfairPage";
+import RailFencePage from "./pages/RailFencePage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path="/caesar" element={<CaesarCipherPage />} />
             <Route path="/rsa" element={<RsaPage />} />
             <Route path="/playfair" element={<PlayfairPage />} />
+            <Route path="/railfence" element={<RailFencePage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>

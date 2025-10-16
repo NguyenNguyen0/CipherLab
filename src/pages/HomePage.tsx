@@ -8,7 +8,7 @@ const HomePage = () => {
         Welcome to Cipher Tools! Select a cipher method from the list below or from the navigation bar.
       </p>
       
-      <div className="grid md:grid-cols-3 gap-4">
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Link
           to="/caesar"
           className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-200 text-center"
@@ -31,6 +31,14 @@ const HomePage = () => {
         >
           <h2 className="text-xl font-semibold text-gray-800 mb-2">Playfair Cipher</h2>
           <p className="text-gray-600">A digraph substitution cipher that uses a key to create a 5x5 grid for encryption.</p>
+        </Link>
+
+        <Link
+          to="/railfence"
+          className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-200 text-center"
+        >
+          <h2 className="text-xl font-semibold text-gray-800 mb-2">Rail Fence Cipher</h2>
+          <p className="text-gray-600">A transposition cipher that arranges plaintext in a zigzag pattern on rails.</p>
         </Link>
       </div>
     </div>
