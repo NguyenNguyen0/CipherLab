@@ -24,7 +24,7 @@ const Navbar = () => {
           {/* Logo and brand */}
           <div className="flex-shrink-0 flex items-center">
             <Link to="/" className="text-white font-bold text-xl">
-              Encoder
+              Cipher Lab
             </Link>
           </div>
 

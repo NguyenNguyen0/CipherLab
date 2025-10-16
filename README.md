@@ -1,48 +1,48 @@
-# RSA
-1. Select p=11, q=3
-2. n = pxq = 11x3 = 33
-3. φ(n) = (p-1)(q-1) = (11-1)(3-1) = 20
-4. Select e: gcd(φ(n), e) = 1
-   e = 3
-5. Calculate: d = e^-1(mod φ(n))
+# CipherLab 🤖
 
-    q=r1//r2;r = r1− q × r2; s = s1−q × s2; t = t1− q × t2
+A compact collection of classic ciphers plus a tiny RSA demo for learning and quick experiments.
 
+Highlights
+- 🔐 RSA: key generation, encrypt/decrypt, fast modular exponentiation
+- 🔁 Caesar cipher (shift-based)
+- 🪵 Rail Fence (fence) cipher
+- 🔍 Playfair cipher (5×5 digraph table)
+- 🧩 Small React demo UI and a reusable cipher library
 
-    | q   | r1 r2 | r   | t1 t2 | t   |
-    | --- | :---: | --- | :---: | --- |
-    | 6   | 20 3  | 2   |  0 1  | -6  |
-    | 1   |  3 2  | 1   | 1 -6  | 7   |
-    | 2   |  2 1  | 0   | -6 7  | -20 |
-    |     |  1 0  |     | 7 -20 | t   |
+Quick start (Windows)
+1. Open a terminal in the project folder.
+2. Install dependencies:
+   npm install
+3. Run the demo:
+   npm start
+4. Run tests:
+   npm test
 
-    - t1 > 0 => d = t1
-    - t1 < 0 => d = n - t1
+Library usage
+- Import the functions you need from the library.
+- Each cipher typically provides:
+  - setup / key generation functions (when applicable)
+  - encrypt(plaintext, options)
+  - decrypt(ciphertext, options)
 
-6. Keys:
-   PU = {e, n}
-   PR = {d, n}
-7. Encription
+Examples (summary)
+- RSA: generate p, q → n = p·q; pick e with gcd(e, φ(n)) = 1; compute d = e^-1 mod φ(n); Encrypt: C = M^e mod n; Decrypt: M = C^d mod n.
+- Caesar: shift characters by n positions.
+- Rail Fence: write text across rails, read row-wise.
+- Playfair: build 5×5 key table and encrypt digraphs.
 
-- confidentiality: C = M^e mod n
-- authenticity: C = M^d mod n
-- both: C = (M^d mod n / M)^e mod n
+Notes on RSA
+- Use the extended Euclidean algorithm to compute modular inverses.
+- Use fast modular exponentiation for secure/efficient pow-mod operations.
+- This project is for learning and demo purposes only — do not use for production security.
 
-8. Decription
+Contributing
+- Open issues or PRs.
+- Keep changes small and include tests for cipher behavior.
+- Prefer clear examples and comments for educational value.
 
-- confidentiality: P = C^e mod n
-- authenticity: P = C^d mod n
-- both: P = (C^d mod n / M)^e mod n
+License & safety
+- Educational demo only. Review cryptographic choices before reuse in real systems.
 
+Happy experimenting 🤖
 
-## fast modular exponentiation
-9^17 mod 77 = ?;
-17(10) = 10001(2)
-
-| b[i] | p=p^2    | p=p mod 77      | p.z    | p = p mod 77  |
-| ---- | -------- | --------------- | ------ | ------------- |
-| 1    | 1        | 1               | 9      | 9 mod 77 = 9  |
-| 0    | 9^2=81   | 81 mod77=4      | -      | 4             |
-| 0    | 4^2=16   | 16 mod77=16     | -      | 16            |
-| 0    | 16^2=256 | 256 mod 77 = 25 | -      | 25            |
-| 1    | 25^2=625 | 625 mod 77 = 9  | 9x9=81 | 81 mod 77 = 4 |
