@@ -66,9 +66,24 @@ const RsaPage = () => {
     }
   }, [p, q, e]);
 
+  // Clear operation results
+  const clearResults = () => {
+    setEncryptResult(null);
+    setDecryptResult(null);
+    setSignResult(null);
+    setVerifyResult(null);
+    setResult({
+      encryption: null,
+      decryption: null,
+      signature: null,
+      verification: null,
+    });
+  };
+
   // Generate RSA keys
   const generateKeys = () => {
     setError(null);
+    clearResults();
     try {
       const result = RsaCipher.generateKeyPair(p, q, e);
       setKeyGenResult(result);
@@ -87,6 +102,12 @@ const RsaPage = () => {
     setError(null);
     if (!keyGenResult) {
       setError("Generate keys first");
+      return;
+    }
+    
+    // Validate message size
+    if (message > keyGenResult.params.n - 1) {
+      setError(`Message must be less than n (${keyGenResult.params.n})`);
       return;
     }
 
@@ -243,25 +264,25 @@ const RsaPage = () => {
       <table className="min-w-full divide-y divide-gray-200 border">
         <thead>
           <tr className="bg-gray-50">
-            <th className="px-3 py-2 text-center text-xs font-medium text-gray-500 tracking-wider">
+            <th className="px-3 py-2 text-center text-sm font-bold text-gray-500 tracking-wider">
               <InlineMath math="q" />
             </th>
-            <th className="px-3 py-2 text-center text-xs font-medium text-gray-500 tracking-wider">
+            <th className="px-3 py-2 text-center text-sm font-bold text-gray-500 tracking-wider">
               <InlineMath math="r_1" />
             </th>
-            <th className="px-3 py-2 text-center text-xs font-medium text-gray-500 tracking-wider">
+            <th className="px-3 py-2 text-center text-sm font-bold text-gray-500 tracking-wider">
               <InlineMath math="r_2" />
             </th>
-            <th className="px-3 py-2 text-center text-xs font-medium text-gray-500 tracking-wider">
+            <th className="px-3 py-2 text-center text-sm font-bold text-gray-500 tracking-wider">
               <InlineMath math="r" />
             </th>
-            <th className="px-3 py-2 text-center text-xs font-medium text-gray-500 tracking-wider">
+            <th className="px-3 py-2 text-center text-sm font-bold text-gray-500 tracking-wider">
               <InlineMath math="t_1" />
             </th>
-            <th className="px-3 py-2 text-center text-xs font-medium text-gray-500 tracking-wider">
+            <th className="px-3 py-2 text-center text-sm font-bold text-gray-500 tracking-wider">
               <InlineMath math="t_2" />
             </th>
-            <th className="px-3 py-2 text-center text-xs font-medium text-gray-500 tracking-wider">
+            <th className="px-3 py-2 text-center text-sm font-bold text-gray-500 tracking-wider">
               <InlineMath math="t" />
             </th>
           </tr>
@@ -322,19 +343,19 @@ const RsaPage = () => {
       <table className="min-w-full divide-y divide-gray-200 border">
         <thead>
           <tr className="bg-gray-50">
-            <th className="px-3 py-2 text-center text-xs font-medium text-gray-500 tracking-wider">
+            <th className="px-3 py-2 text-center text-sm font-bold text-gray-500 tracking-wider">
               <InlineMath math="b[i]" />
             </th>
-            <th className="px-3 py-2 text-center text-xs font-medium text-gray-500 tracking-wider">
+            <th className="px-3 py-2 text-center text-sm font-bold text-gray-500 tracking-wider">
               <InlineMath math="p = p^2" />
             </th>
-            <th className="px-3 py-2 text-center text-xs font-medium text-gray-500 tracking-wider">
+            <th className="px-3 py-2 text-center text-sm font-bold text-gray-500 tracking-wider">
               <InlineMath math="p = p \mod n" />
             </th>
-            <th className="px-3 py-2 text-center text-xs font-medium text-gray-500 tracking-wider">
+            <th className="px-3 py-2 text-center text-sm font-bold text-gray-500 tracking-wider">
               <InlineMath math="p \cdot z" />
             </th>
-            <th className="px-3 py-2 text-center text-xs font-medium text-gray-500 tracking-wider">
+            <th className="px-3 py-2 text-center text-sm font-bold text-gray-500 tracking-wider">
               <InlineMath math="p = p \mod n" />
             </th>
           </tr>
@@ -378,15 +399,17 @@ const RsaPage = () => {
               type="number"
               min="2"
               className="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={p}
+              value={p === 0 ? "" : p}
+              id="p-input"
               onChange={(e) => {
-                const value = parseInt(e.target.value);
+                const value =
+                  e.target.value === "" ? 0 : parseInt(e.target.value);
                 if (!isNaN(value)) {
                   setP(value);
                 }
               }}
             />
-            {!RsaCipher.isPrime(p) && (
+            {p !== 0 && !RsaCipher.isPrime(p) && (
               <p className="text-xs text-red-500 mt-1">
                 Please enter a prime number
               </p>
@@ -401,15 +424,17 @@ const RsaPage = () => {
               type="number"
               min="2"
               className="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={q}
+              value={q === 0 ? "" : q}
+              id="q-input"
               onChange={(e) => {
-                const value = parseInt(e.target.value);
+                const value =
+                  e.target.value === "" ? 0 : parseInt(e.target.value);
                 if (!isNaN(value)) {
                   setQ(value);
                 }
               }}
             />
-            {!RsaCipher.isPrime(q) && (
+            {q !== 0 && !RsaCipher.isPrime(q) && (
               <p className="text-xs text-red-500 mt-1">
                 Please enter a prime number
               </p>
@@ -523,16 +548,25 @@ const RsaPage = () => {
 
                 <div className="mt-2 ml-3">
                   <p>
-                    {keyGenResult.params.d >= 0 ? (
+                    {keyGenResult.euclideanSteps.length > 0 &&
+                    keyGenResult.euclideanSteps[
+                      keyGenResult.euclideanSteps.length - 1
+                    ].t2 >= 0 ? (
                       <InlineMath
                         math={`t_1 > 0 \\Rightarrow d = ${keyGenResult.params.d}`}
                       />
                     ) : (
                       <InlineMath
-                        math={`t_1 < 0 \\Rightarrow d = \\phi(n) - |t_1| = ${
+                        math={`t_1 < 0 \\Rightarrow d = \\phi(n) + |t_1| = ${
                           keyGenResult.params.totient
-                        } - (${-keyGenResult.params.d}) = ${
-                          keyGenResult.params.d + keyGenResult.params.totient
+                        } + (${
+                          keyGenResult.euclideanSteps[
+                            keyGenResult.euclideanSteps.length - 1
+                          ].t2
+                        }) = ${
+                          keyGenResult.euclideanSteps[
+                            keyGenResult.euclideanSteps.length - 1
+                          ].t2 + keyGenResult.params.totient
                         }`}
                       />
                     )}
@@ -569,9 +603,11 @@ const RsaPage = () => {
                     min="0"
                     max={keyGenResult ? keyGenResult.params.n - 1 : 0}
                     className="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    value={message}
+                    value={message === 0 ? "" : message}
+                    id="message-input"
                     onChange={(e) => {
-                      const value = parseInt(e.target.value);
+                      const value =
+                        e.target.value === "" ? 0 : parseInt(e.target.value);
                       if (!isNaN(value) && value >= 0) {
                         setMessage(value);
                       }
@@ -634,8 +670,14 @@ const RsaPage = () => {
                   </button>
                 </div>
 
+                {/* Message validation error message */}
+                {error && (
+                  <div className="mt-4 text-red-500 text-center">{error}</div>
+                )}
+
                 {/* Step 7: Encryption or Signing */}
                 {result.encryption !== null &&
+                  encryptResult !== null &&
                   securityMode === "confidentiality" && (
                     <div className="mt-6">
                       <h3 className="text-md font-bold">
@@ -668,6 +710,7 @@ const RsaPage = () => {
                   )}
 
                 {result.signature !== null &&
+                  signResult !== null &&
                   securityMode === "authenticity" && (
                     <div className="mt-6">
                       <h3 className="text-md font-bold">
@@ -699,47 +742,52 @@ const RsaPage = () => {
                     </div>
                   )}
 
-                {result.encryption !== null && securityMode === "both" && (
-                  <div className="mt-6">
-                    <h3 className="text-md font-bold">
-                      7. Encryption (Confidentiality + Authenticity)
-                    </h3>
-                    <p>
-                      <BlockMath
-                        math={`\\displaystyle C = \\frac{(M^d \\bmod n)^e}{M^e} \\bmod n = \\frac{(${message}^{${keyGenResult.params.d}} \\bmod ${keyGenResult.params.n})^{${keyGenResult.params.e}}}{${message}^{${keyGenResult.params.e}}} \\bmod ${keyGenResult.params.n} = ${result.encryption}`}
-                      />
-                    </p>
+                {result.encryption !== null &&
+                  encryptResult !== null &&
+                  securityMode === "both" && (
+                    <div className="mt-6">
+                      <h3 className="text-md font-bold">
+                        7. Encryption (Confidentiality + Authenticity)
+                      </h3>
+                      <p>
+                        <BlockMath
+                          math={`\\displaystyle C = \\frac{(M^d \\bmod n)^e}{M^e} \\bmod n = \\frac{(${message}^{${keyGenResult.params.d}} \\bmod ${keyGenResult.params.n})^{${keyGenResult.params.e}}}{${message}^{${keyGenResult.params.e}}} \\bmod ${keyGenResult.params.n} = ${result.encryption}`}
+                        />
+                      </p>
 
-                    {encryptResult && (
-                      <div className="mt-4">
-                        <h4 className="text-md font-semibold mb-2">
-                          Fast Modular Exponentiation
-                        </h4>
-                        <p className="mb-2">
-                          <InlineMath
-                            math={`\\text{First: } S = M^d \\mod n = ${message}^{${keyGenResult.params.d}} \\mod ${keyGenResult.params.n} = ${result.signature}`}
-                          />
-                        </p>
-                        <p className="mb-2">
-                          <InlineMath
-                            math={`\\text{Then: } C = S^e \\mod n = ${result.signature}^{${keyGenResult.params.e}} \\mod ${keyGenResult.params.n} = ${result.encryption}`}
-                          />
-                        </p>
-                        <p className="mb-2">
-                          <InlineMath
-                            math={`${
-                              keyGenResult.params.e
-                            }_{10} = ${keyGenResult.params.e.toString(2)}_{2}`}
-                          />
-                        </p>
-                        {renderModExpStepsTable(encryptResult.steps)}
-                      </div>
-                    )}
-                  </div>
-                )}
+                      {encryptResult && (
+                        <div className="mt-4">
+                          <h4 className="text-md font-semibold mb-2">
+                            Fast Modular Exponentiation
+                          </h4>
+                          <p className="mb-2">
+                            <InlineMath
+                              math={`\\text{First: } S = M^d \\mod n = ${message}^{${keyGenResult.params.d}} \\mod ${keyGenResult.params.n} = ${result.signature}`}
+                            />
+                          </p>
+                          <p className="mb-2">
+                            <InlineMath
+                              math={`\\text{Then: } C = S^e \\mod n = ${result.signature}^{${keyGenResult.params.e}} \\mod ${keyGenResult.params.n} = ${result.encryption}`}
+                            />
+                          </p>
+                          <p className="mb-2">
+                            <InlineMath
+                              math={`${
+                                keyGenResult.params.e
+                              }_{10} = ${keyGenResult.params.e.toString(
+                                2
+                              )}_{2}`}
+                            />
+                          </p>
+                          {renderModExpStepsTable(encryptResult.steps)}
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                 {/* Step 8: Decryption or Verification */}
                 {result.decryption !== null &&
+                  decryptResult !== null &&
                   securityMode === "confidentiality" && (
                     <div className="mt-6">
                       <h3 className="text-md font-bold">
@@ -772,6 +820,7 @@ const RsaPage = () => {
                   )}
 
                 {result.verification !== null &&
+                  verifyResult !== null &&
                   securityMode === "authenticity" && (
                     <div className="mt-6">
                       <h3 className="text-md font-bold">
@@ -803,44 +852,48 @@ const RsaPage = () => {
                     </div>
                   )}
 
-                {result.decryption !== null && securityMode === "both" && (
-                  <div className="mt-6">
-                    <h3 className="text-md font-bold">
-                      8. Decryption (Confidentiality + Authenticity)
-                    </h3>
-                    <p>
-                      <BlockMath
-                        math={`\\displaystyle P = \\frac{(C^d \\bmod n)^e}{M^e} \\bmod n = \\frac{(${result.encryption}^{${keyGenResult.params.d}} \\bmod ${keyGenResult.params.n})^{${keyGenResult.params.e}}}{${message}^{${keyGenResult.params.e}}} \\bmod ${keyGenResult.params.n} = ${result.decryption}`}
-                      />
-                    </p>
+                {result.decryption !== null &&
+                  decryptResult !== null &&
+                  securityMode === "both" && (
+                    <div className="mt-6">
+                      <h3 className="text-md font-bold">
+                        8. Decryption (Confidentiality + Authenticity)
+                      </h3>
+                      <p>
+                        <BlockMath
+                          math={`\\displaystyle P = \\frac{(C^d \\bmod n)^e}{M^e} \\bmod n = \\frac{(${result.encryption}^{${keyGenResult.params.d}} \\bmod ${keyGenResult.params.n})^{${keyGenResult.params.e}}}{${message}^{${keyGenResult.params.e}}} \\bmod ${keyGenResult.params.n} = ${result.decryption}`}
+                        />
+                      </p>
 
-                    {decryptResult && (
-                      <div className="mt-4">
-                        <h4 className="text-md font-semibold mb-2">
-                          Fast Modular Exponentiation
-                        </h4>
-                        <p className="mb-2">
-                          <InlineMath
-                            math={`\\text{First: } M' = C^d \\mod n = ${result.encryption}^{${keyGenResult.params.d}} \\mod ${keyGenResult.params.n} = ${decryptResult.message}`}
-                          />
-                        </p>
-                        <p className="mb-2">
-                          <InlineMath
-                            math={`\\text{Then: } P = M'^e \\mod n = ${decryptResult.message}^{${keyGenResult.params.e}} \\mod ${keyGenResult.params.n} = ${result.decryption}`}
-                          />
-                        </p>
-                        <p className="mb-2">
-                          <InlineMath
-                            math={`${
-                              keyGenResult.params.e
-                            }_{10} = ${keyGenResult.params.e.toString(2)}_{2}`}
-                          />
-                        </p>
-                        {renderModExpStepsTable(decryptResult.steps)}
-                      </div>
-                    )}
-                  </div>
-                )}
+                      {decryptResult && (
+                        <div className="mt-4">
+                          <h4 className="text-md font-semibold mb-2">
+                            Fast Modular Exponentiation
+                          </h4>
+                          <p className="mb-2">
+                            <InlineMath
+                              math={`\\text{First: } M' = C^d \\mod n = ${result.encryption}^{${keyGenResult.params.d}} \\mod ${keyGenResult.params.n} = ${decryptResult.message}`}
+                            />
+                          </p>
+                          <p className="mb-2">
+                            <InlineMath
+                              math={`\\text{Then: } P = M'^e \\mod n = ${decryptResult.message}^{${keyGenResult.params.e}} \\mod ${keyGenResult.params.n} = ${result.decryption}`}
+                            />
+                          </p>
+                          <p className="mb-2">
+                            <InlineMath
+                              math={`${
+                                keyGenResult.params.e
+                              }_{10} = ${keyGenResult.params.e.toString(
+                                2
+                              )}_{2}`}
+                            />
+                          </p>
+                          {renderModExpStepsTable(decryptResult.steps)}
+                        </div>
+                      )}
+                    </div>
+                  )}
               </div>
             </div>
           )
@@ -909,8 +962,13 @@ const RsaPage = () => {
                         id="fme-base"
                         type="number"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        value={fmeBase}
-                        onChange={(e) => setFmeBase(Number(e.target.value))}
+                        value={fmeBase === 0 ? '' : fmeBase}
+                        onChange={(e) => {
+                          const value = e.target.value === '' ? 0 : Number(e.target.value);
+                          if (!isNaN(value)) {
+                            setFmeBase(value);
+                          }
+                        }}
                       />
                     </div>
 
@@ -925,8 +983,13 @@ const RsaPage = () => {
                         id="fme-exponent"
                         type="number"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        value={fmeExponent}
-                        onChange={(e) => setFmeExponent(Number(e.target.value))}
+                        value={fmeExponent === 0 ? '' : fmeExponent}
+                        onChange={(e) => {
+                          const value = e.target.value === '' ? 0 : Number(e.target.value);
+                          if (!isNaN(value)) {
+                            setFmeExponent(value);
+                          }
+                        }}
                       />
                     </div>
 
@@ -941,8 +1004,13 @@ const RsaPage = () => {
                         id="fme-modulus"
                         type="number"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        value={fmeModulus}
-                        onChange={(e) => setFmeModulus(Number(e.target.value))}
+                        value={fmeModulus === 0 ? '' : fmeModulus}
+                        onChange={(e) => {
+                          const value = e.target.value === '' ? 0 : Number(e.target.value);
+                          if (!isNaN(value)) {
+                            setFmeModulus(value);
+                          }
+                        }}
                       />
                     </div>
 
