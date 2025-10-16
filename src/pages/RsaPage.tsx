@@ -36,19 +36,11 @@ const RsaPage = () => {
   const [securityMode, setSecurityMode] = useState<
     "confidentiality" | "authenticity" | "both"
   >("confidentiality");
-  const [keyGenResult, setKeyGenResult] = useState<RsaKeyGenResult | null>(
-    null
-  );
-  const [encryptResult, setEncryptResult] = useState<RsaOperationResult | null>(
-    null
-  );
-  const [decryptResult, setDecryptResult] = useState<RsaOperationResult | null>(
-    null
-  );
+  const [keyGenResult, setKeyGenResult] = useState<RsaKeyGenResult | null>(null);
+  const [encryptResult, setEncryptResult] = useState<RsaOperationResult | null>(null);
+  const [decryptResult, setDecryptResult] = useState<RsaOperationResult | null>(null);
   const [signResult, setSignResult] = useState<RsaOperationResult | null>(null);
-  const [verifyResult, setVerifyResult] = useState<RsaOperationResult | null>(
-    null
-  );
+  const [verifyResult, setVerifyResult] = useState<RsaOperationResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   // FME Modal state
@@ -72,12 +64,6 @@ const RsaPage = () => {
     if (validEValues.length > 0 && !validEValues.includes(e)) {
       setE(validEValues[0]);
     }
-  }, [p, q, e]);
-
-  // Generate keys when p, q, e change
-  useEffect(() => {
-    generateKeys();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [p, q, e]);
 
   // Generate RSA keys
@@ -306,6 +292,25 @@ const RsaPage = () => {
               </td>
             </tr>
           ))}
+          {steps.length > 0 && (
+            <tr className={steps.length % 2 ? "bg-gray-50" : "bg-white"}>
+              <td className="px-3 py-2 text-center text-sm font-mono"></td>
+              <td className="px-3 py-2 text-center text-sm font-mono">
+                <InlineMath math={`${steps[steps.length - 1].r2}`} />
+              </td>
+              <td className="px-3 py-2 text-center text-sm font-mono">
+                <InlineMath math={`${steps[steps.length - 1].r}`} />
+              </td>
+              <td className="px-3 py-2 text-center text-sm font-mono"></td>
+              <td className="px-3 py-2 text-center text-sm font-mono">
+                <InlineMath math={`${steps[steps.length - 1].t2}`} />
+              </td>
+              <td className="px-3 py-2 text-center text-sm font-mono">
+                <InlineMath math={`${steps[steps.length - 1].t}`} />
+              </td>
+              <td className="px-3 py-2 text-center text-sm font-mono"></td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
