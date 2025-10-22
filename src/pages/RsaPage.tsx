@@ -694,6 +694,11 @@ const RsaPage = () => {
                           <h4 className="text-md font-semibold mb-2">
                             Fast Modular Exponentiation
                           </h4>
+                          <p className="font-mono mb-2">
+                            <InlineMath
+                              math={`${message}^${keyGenResult.params.e} \\mod ${keyGenResult.params.n}`}
+                            />
+                          </p>
                           <p className="mb-2">
                             <InlineMath
                               math={`${
@@ -727,6 +732,11 @@ const RsaPage = () => {
                           <h4 className="text-md font-semibold mb-2">
                             Fast Modular Exponentiation
                           </h4>
+                          <p className="mb-2">
+                            <InlineMath
+                              math={`${message}^${keyGenResult.params.d} \\mod ${keyGenResult.params.n}`}
+                            />
+                          </p>
                           <p className="mb-2">
                             <InlineMath
                               math={`${
@@ -806,6 +816,11 @@ const RsaPage = () => {
                           </h4>
                           <p className="mb-2">
                             <InlineMath
+                              math={`${result.encryption}^${keyGenResult.params.d} \\mod ${keyGenResult.params.n}`}
+                            />
+                          </p>
+                          <p className="mb-2">
+                            <InlineMath
                               math={`${
                                 keyGenResult.params.d
                               }_{10} = ${keyGenResult.params.d.toString(
@@ -837,6 +852,11 @@ const RsaPage = () => {
                           <h4 className="text-md font-semibold mb-2">
                             Fast Modular Exponentiation
                           </h4>
+                          <p className="mb-2">
+                            <InlineMath
+                              math={`${result.signature}^${keyGenResult.params.e} \\mod ${keyGenResult.params.n}`}
+                            />
+                          </p>
                           <p className="mb-2">
                             <InlineMath
                               math={`${
@@ -1051,6 +1071,11 @@ const RsaPage = () => {
                           <h4 className="text-md font-semibold mb-2">
                             Fast Modular Exponentiation
                           </h4>
+                          <p className="mb-2">
+                            <InlineMath
+                              math={`${fmeBase}^{${fmeExponent}} \\mod ${fmeModulus}`}
+                            />
+                          </p>
                           <p className="mb-2">
                             <InlineMath
                               math={`${fmeExponent}_{10} = ${fmeExponent.toString(
