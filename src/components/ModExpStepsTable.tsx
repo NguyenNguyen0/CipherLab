@@ -1,14 +1,13 @@
-import { useState } from "react";
 import { InlineMath } from "react-katex";
 import type { ModExpStep } from "../utils/RsaCipher";
 
-export default function ModExpStepsTable(steps: ModExpStep[]) {
-  const [showMore, setShowMore] = useState(true);
+interface ModExpStepsTableProps {
+  steps: ModExpStep[];
+}
+
+const ModExpStepsTable = ({ steps }: ModExpStepsTableProps) => {
   return (
     <div className="overflow-x-auto">
-      <button onClick={() => setShowMore(!showMore)}>
-        {showMore ? "👁️" : "❎"}
-      </button>
       <table className="min-w-full divide-y divide-gray-200 border">
         <thead>
           <tr className="bg-gray-50">
@@ -36,7 +35,7 @@ export default function ModExpStepsTable(steps: ModExpStep[]) {
                 <InlineMath math={`${step.bit}`} />
               </td>
               <td className="px-3 py-2 text-center text-sm font-mono">
-                <InlineMath math={`${ showMore ? step.pSquared : ''}`} />
+                <InlineMath math={`${step.pSquared}`} />
               </td>
               <td className="px-3 py-2 text-center text-sm font-mono">
                 <InlineMath math={`${step.pMod}`} />
@@ -53,4 +52,6 @@ export default function ModExpStepsTable(steps: ModExpStep[]) {
       </table>
     </div>
   );
-}
+};
+
+export default ModExpStepsTable;
