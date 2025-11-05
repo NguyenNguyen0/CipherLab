@@ -696,7 +696,7 @@ const RsaPage = () => {
                           </h4>
                           <p className="font-mono mb-2">
                             <InlineMath
-                              math={`${message}^${keyGenResult.params.e} \\mod ${keyGenResult.params.n}`}
+                              math={`${message}^{${keyGenResult.params.e}} \\mod ${keyGenResult.params.n}`}
                             />
                           </p>
                           <p className="mb-2">
@@ -734,7 +734,7 @@ const RsaPage = () => {
                           </h4>
                           <p className="mb-2">
                             <InlineMath
-                              math={`${message}^${keyGenResult.params.d} \\mod ${keyGenResult.params.n}`}
+                              math={`${message}^{${keyGenResult.params.d}} \\mod ${keyGenResult.params.n}`}
                             />
                           </p>
                           <p className="mb-2">
@@ -816,7 +816,7 @@ const RsaPage = () => {
                           </h4>
                           <p className="mb-2">
                             <InlineMath
-                              math={`${result.encryption}^${keyGenResult.params.d} \\mod ${keyGenResult.params.n}`}
+                              math={`${result.encryption}^{${keyGenResult.params.d}} \\mod ${keyGenResult.params.n}`}
                             />
                           </p>
                           <p className="mb-2">
@@ -854,7 +854,7 @@ const RsaPage = () => {
                           </h4>
                           <p className="mb-2">
                             <InlineMath
-                              math={`${result.signature}^${keyGenResult.params.e} \\mod ${keyGenResult.params.n}`}
+                              math={`${result.signature}^{${keyGenResult.params.e}} \\mod ${keyGenResult.params.n}`}
                             />
                           </p>
                           <p className="mb-2">
@@ -1041,17 +1041,27 @@ const RsaPage = () => {
                     )}
 
                     <div className="flex justify-between pt-4">
-                      <button
-                        type="button"
-                        className="px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                        onClick={calculateFme}
-                      >
-                        Calculate
-                      </button>
+                      <div className="flex gap-4">
+                        <button
+                          type="button"
+                          className="px-4 py-2 text-sm font-medium text-green-900 bg-green-200 border border-transparent rounded-md hover:bg-green-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                          onClick={calculateFme}
+                        >
+                          Calculate
+                        </button>
+                        <button
+                          type="button"
+                          className="px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                          onClick={calculateFme}
+                        >
+                          Clear
+                        </button>
+
+                      </div>
 
                       <button
                         type="button"
-                        className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-transparent rounded-md hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2"
+                        className="px-4 py-2 text-sm font-medium text-red-700 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
                         onClick={() => setShowFmeModal(false)}
                       >
                         Close

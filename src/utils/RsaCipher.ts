@@ -191,36 +191,31 @@ class RsaCipher {
     if (modulus === 1) return { result: 0, steps: [] };
     
     // Convert exponent to binary
-    const binaryExp = exponent.toString(2).split('').map(Number);
-    
+    const steps: ModExpStep[] = []
+    const binaryExp = exponent.toString(2).split("").reverse().map(Number);
     let result = 1;
     let p = base % modulus;
-    const steps: ModExpStep[] = [];
-    
+
     for (let i = 0; i < binaryExp.length; i++) {
       const bit = binaryExp[i];
-      const currentP = p;
-      const pSquared = (p * p);
-      const pMod = pSquared % modulus;
-      
       const step: ModExpStep = {
-        i: binaryExp.length - i - 1,  // Bit position from right to left
+        i,
         bit,
-        p: currentP,
-        pSquared,
-        pMod,
-        result: result
+        p,
+        pSquared: p * p,
+        pMod: (p * p) % modulus,
+        result,
       };
-      
+
       if (bit === 1) {
         const prevResult = result;
         result = (result * p) % modulus;
         step.z = prevResult * p;
         step.result = result;
       }
-      
+
       steps.push(step);
-      p = pMod;
+      p = (p * p) % modulus;
     }
     
     return { result, steps };
